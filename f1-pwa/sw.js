@@ -6,7 +6,7 @@
    content instead of serving a stale cached copy. See README.md.
    ========================================================================== */
 
-const CACHE_VERSION = '2026.12.1'; // keep in sync with APP_VERSION in js/data.js
+const CACHE_VERSION = '2026.12.2'; // keep in sync with APP_VERSION in js/data.js
 const CACHE_NAME = `f1-2026-dashboard-${CACHE_VERSION}`;
 
 const PRECACHE_URLS = [
