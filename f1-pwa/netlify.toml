@@ -1,0 +1,42 @@
+[build]
+  publish = "."
+
+# The service worker file itself must never be cached aggressively, or
+# browsers won't notice you've shipped an update.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+# App shell files: short cache, so a Netlify redeploy is picked up quickly
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+# Icons rarely change — fine to cache longer
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Single-page app: unknown paths fall back to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

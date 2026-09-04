@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>F1 2026 Dashboard</title>
+<meta name="description" content="Live 2026 Formula 1 dashboard — calendar, standings, points race, 5-year history, all-time records, regulations, and ticket prices.">
+
+<!-- PWA -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0A0C0F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="F1 2026">
+<link rel="icon" href="./icons/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-top-row">
+    <div class="eyebrow"><span class="dash"></span> 77th FIA Formula One World Championship</div>
+    <button id="installBtn" class="install-btn">⬇ Install App</button>
+  </div>
+  <h1 class="title">Formula 1 <span>· 2026 Dashboard</span></h1>
+  <p class="subtitle">A new regulatory era — active-aero chassis, 100%-sustainable-fuel hybrid power units, and an 11-team grid with Audi and Cadillac on the entry list for the first time. Live standings, full calendar, five-year title history, and the sport's all-time records.</p>
+  <div class="lights">
+    <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="k">Championship Leader</div><div class="v" id="heroLeader">—</div></div>
+    <div class="hstat"><div class="k">Gap to P2</div><div class="v" id="heroGap">—</div></div>
+    <div class="hstat"><div class="k">Season Progress</div><div class="v" id="heroRound">—</div></div>
+    <div class="hstat"><div class="k">Next Race</div><div class="v" id="heroNext">—</div></div>
+  </div>
+  <div class="updated-badge">Last updated: <span id="lastUpdated">—</span></div>
+</div>
+
+<div class="nav-wrap">
+  <nav class="nav">
+    <button class="navbtn active" data-tab="calendar">Calendar</button>
+    <button class="navbtn" data-tab="standings">Standings</button>
+    <button class="navbtn" data-tab="pointsrace">Points Race</button>
+    <button class="navbtn" data-tab="history">5-Year History</button>
+    <button class="navbtn" data-tab="records">All-Time Records</button>
+    <button class="navbtn" data-tab="regulations">2026 Regulations</button>
+    <button class="navbtn" data-tab="tickets">Ticket Prices</button>
+    <button class="navbtn" data-tab="trivia">Trivia</button>
+  </nav>
+</div>
+
+<main>
+
+  <!-- ============ CALENDAR ============ -->
+  <section class="panel-section active" id="calendar">
+    <div class="section-head">
+      <h2>2026 Race Calendar</h2>
+      <p>23 rounds across 21 countries, six of them Sprint weekends. The Bahrain GP was relocated to Sepang, Malaysia after regional disruption cancelled the original April date, and Madrid's part-street "Madring" circuit joins as a second Spanish round.</p>
+    </div>
+
+    <div class="rail-wrap">
+      <div class="rail-label"><span>Australia · 6 Mar</span><span>Abu Dhabi · 6 Dec</span></div>
+      <div class="rail">
+        <div class="rail-fill" id="railFill" style="width:0%"></div>
+        <div class="rail-marker pulse" id="railMarker" style="left:0%"></div>
+      </div>
+    </div>
+
+    <div class="cal-grid" id="calGrid"></div>
+  </section>
+
+  <!-- ============ STANDINGS ============ -->
+  <section class="panel-section" id="standings">
+    <div class="section-head">
+      <h2>2026 Championship Standings</h2>
+      <p>After Round 12 · Dutch Grand Prix (21–23 Aug 2026), the final Formula 1 race held at Zandvoort. Team-colour bar shows current constructor.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="tower">
+          <div class="tower-head"><span>Pos</span><span>Driver</span><span style="text-align:right">Points</span></div>
+          <div id="driverTower"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="side-card">
+          <h3>Constructors' Championship</h3>
+          <div id="constrList"></div>
+        </div>
+        <div class="side-card" id="nextRoundCard"></div>
+        <div class="side-card" id="lastHeadlineCard"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POINTS RACE ============ -->
+  <section class="panel-section" id="pointsrace">
+    <div class="section-head">
+      <h2>The Points Race — Round by Round</h2>
+      <p>Cumulative championship points after every round so far, animated like a bar-chart race. Scrub the slider or hit play to watch the order shift race by race.</p>
+    </div>
+
+    <div class="race-controls">
+      <button class="playbtn" id="playBtn">▶</button>
+      <input type="range" id="roundSlider" min="1" max="12" value="12" step="1">
+      <div class="round-label">Round <span id="roundNum">12</span>/23 · <span id="roundName">Dutch GP</span></div>
+    </div>
+
+    <div class="race-chart" id="raceChart" style="height:400px;"></div>
+    <div class="race-note">Rounds 1–11 (Australia → Hungary) are reconstructed from official round-by-round scoring and cross-checked to match each driver's published Round 11 total exactly. Round 12 (Dutch GP) is derived directly from the difference between the official Round 11 and Round 12 standings — Formula1.com hadn't yet published a full Zandvoort classification at the time of writing, so this last step is a calculated points-gained figure rather than a confirmed per-position breakdown.</div>
+  </section>
+
+  <!-- ============ HISTORY ============ -->
+  <section class="panel-section" id="history">
+    <div class="section-head">
+      <h2>Five-Year Championship History</h2>
+      <p>2021–2025 — from Verstappen's title-clinching final lap in Abu Dhabi to Norris's maiden crown in a three-way McLaren-Red Bull fight.</p>
+    </div>
+    <div id="historyList"></div>
+  </section>
+
+  <!-- ============ RECORDS ============ -->
+  <section class="panel-section" id="records">
+    <div class="section-head">
+      <h2>All-Time Records</h2>
+      <p>Career and single-season records through the 2026 Hungarian Grand Prix. Sourced from official FIA/F1 results archives.</p>
+    </div>
+
+    <div class="rec-subhead">Driver Career Records</div>
+    <div class="rec-grid" id="recDriverCareer"></div>
+
+    <div class="rec-subhead">Single-Season Records</div>
+    <div class="rec-grid" id="recSeason"></div>
+
+    <div class="rec-subhead">Championship Milestones</div>
+    <div class="rec-grid" id="recTitles"></div>
+
+    <div class="rec-subhead">Constructors' Records</div>
+    <div class="rec-grid" id="recConstructors"></div>
+  </section>
+
+  <!-- ============ REGULATIONS ============ -->
+  <section class="panel-section" id="regulations">
+    <div class="section-head">
+      <h2>2026 Technical Regulations</h2>
+      <p>F1's biggest regulatory reset since the 2014 hybrid era: a new power unit formula, active aerodynamics, a narrower tyre, and a revised prize-money split for the newly-expanded 11-team grid.</p>
+    </div>
+
+    <div class="reg-block">
+      <h3><span class="n">01</span> Power Unit — the 50:50 hybrid</h3>
+      <p class="desc">The 1.6-litre V6 turbo-hybrid architecture continues, but the balance between combustion and electric power shifts dramatically, and the whole car now runs on fully sustainable fuel.</p>
+      <div class="spec-grid">
+        <div class="spec-card"><div class="k">Energy split</div><div class="v">~50 / 50</div><div class="sub">ICE vs. electric, up from roughly 80:20 previously</div></div>
+        <div class="spec-card"><div class="k">MGU-K power</div><div class="v">350 kW</div><div class="sub">Up from 120 kW — nearly 3× the electrical deployment</div></div>
+        <div class="spec-card"><div class="k">MGU-H</div><div class="v">Removed</div><div class="sub">Exhaust-heat recovery dropped to simplify & cut cost</div></div>
+        <div class="spec-card"><div class="k">Energy recovery</div><div class="v">8.5 MJ/lap</div><div class="sub">Roughly double the previous per-lap harvest limit</div></div>
+        <div class="spec-card"><div class="k">Fuel</div><div class="v">100% sustainable</div><div class="sub">Fully non-fossil drop-in fuel across the whole grid</div></div>
+        <div class="spec-card"><div class="k">Manufacturers</div><div class="v">6</div><div class="sub">Ferrari, Mercedes, Honda, Red Bull Ford, Audi, plus GM/Cadillac from 2029</div></div>
+      </div>
+    </div>
+
+    <div class="reg-block">
+      <h3><span class="n">02</span> Chassis & Active Aero</h3>
+      <p class="desc">Smaller, lighter cars with movable wings replace the DRS-era formula — overtaking now runs through an energy-deployment "Overtake Mode" rather than a passive flap.</p>
+      <div class="spec-grid">
+        <div class="spec-card"><div class="k">Weight</div><div class="v">−30 kg</div><div class="sub">Lighter minimum car weight vs. 2025</div></div>
+        <div class="spec-card"><div class="k">Active aero</div><div class="v">Movable wings</div><div class="sub">Front & rear wings switch between low-drag "Straight" and high-downforce "Corner" modes</div></div>
+        <div class="spec-card"><div class="k">DRS</div><div class="v">Retired</div><div class="sub">Replaced by "Overtake Mode" — an MGU-K power override the chasing car can trigger</div></div>
+        <div class="spec-card"><div class="k">Footprint</div><div class="v">Narrower & shorter</div><div class="sub">Reduced ground-effect floor aims to curb porpoising</div></div>
+        <div class="spec-card"><div class="k">Safety</div><div class="v">Stricter impact tests</div><div class="sub">New two-stage nose, tougher side-intrusion structures, mandatory side mirror lights</div></div>
+      </div>
+    </div>
+
+    <div class="reg-block">
+      <h3><span class="n">03</span> Tyres — Pirelli's 2026 P Zero range</h3>
+      <p class="desc">Pirelli drops its softest 2025 compound and returns to a five-tyre range, built narrower to match the new, more efficient chassis.</p>
+      <div class="compound-row">
+        <div class="compound" style="background:#fff;">C1</div>
+        <div class="compound" style="background:#f5d13a;">C2</div>
+        <div class="compound" style="background:#f0a828;">C3</div>
+        <div class="compound" style="background:#e2545a;">C4</div>
+        <div class="compound" style="background:#e8002d; color:#fff;">C5</div>
+      </div>
+      <div class="spec-grid" style="margin-top:14px;">
+        <div class="spec-card"><div class="k">Compound range</div><div class="v">C1 – C5</div><div class="sub">The extra-soft C6, introduced in 2025, is dropped entirely</div></div>
+        <div class="spec-card"><div class="k">Front tread</div><div class="v">−25 mm</div><div class="sub">Narrower front tyre to cut drag and mass</div></div>
+        <div class="spec-card"><div class="k">Rear tread</div><div class="v">−30 mm</div><div class="sub">Narrower rear tyre, biggest single-part weight saving on the car</div></div>
+        <div class="spec-card"><div class="k">Rim size</div><div class="v">18-inch</div><div class="sub">Unchanged from the 2022-2025 generation</div></div>
+        <div class="spec-card"><div class="k">Wet tyres</div><div class="v">Carried over</div><div class="sub">Intermediate & full-wet patterns unchanged from 2025; development focus stayed on slicks</div></div>
+        <div class="spec-card"><div class="k">Race allocation</div><div class="v">3 of 5</div><div class="sub">Pirelli still nominates 3 dry compounds per race weekend from the 5-tyre range</div></div>
+      </div>
+    </div>
+
+    <div class="reg-block">
+      <h3><span class="n">04</span> Prize Money — how the pot is split</h3>
+      <p class="desc">F1's Concorde Agreement keeps exact team-by-team payments confidential, so the figures below are informed public estimates (Motor Sport Magazine, PlanetF1, RacingNews365), not officially disclosed numbers — flagged here rather than presented as exact.</p>
+      <div class="spec-grid" style="margin-bottom:16px;">
+        <div class="spec-card"><div class="k">Teams' share of revenue</div><div class="v">~45%</div><div class="sub">Of F1's total annual commercial revenue is distributed back to the 11 teams</div></div>
+        <div class="spec-card"><div class="k">2025 pool distributed</div><div class="v">~$1.4B</div><div class="sub">Estimated total prize money paid across all teams for the 2025 season</div></div>
+        <div class="spec-card"><div class="k">Champion's share</div><div class="v">~14%</div><div class="sub">Of the base prize pool goes to the Constructors' Champion (~6% to the 10th-placed team)</div></div>
+        <div class="spec-card"><div class="k">Ferrari bonus</div><div class="v">5% flat</div><div class="sub">Long-standing "historic team" payment for having competed since F1 began in 1950</div></div>
+      </div>
+      <div class="ticket-table-wrap">
+        <table class="money-table">
+          <thead><tr><th>Pool</th><th>Approx. share</th><th>How it's allocated</th></tr></thead>
+          <tbody>
+            <tr><td>Base sliding-scale pool</td><td class="num">~75%</td><td>By final Constructors' Championship position — a descending scale from champion to last</td></tr>
+            <tr><td>Historic performance pool</td><td class="num">~20%</td><td>Rewards past championship success — benefits long-time front-runners like Mercedes, Ferrari, Red Bull</td></tr>
+            <tr><td>Ferrari long-standing bonus</td><td class="num">~5%</td><td>Fixed payment tied to Ferrari's unbroken presence since the 1950 championship</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="race-note">The grid expands from 10 to 11 teams for 2026 as Cadillac joins, splitting the base pool an extra way — using 2025's pool as a guide, analysts estimate this trims roughly $30–40M off what the reigning champions would otherwise have received, before accounting for 2026 revenue growth.</p>
+    </div>
+  </section>
+
+  <!-- ============ TICKETS ============ -->
+  <section class="panel-section" id="tickets">
+    <div class="section-head">
+      <h2>2026 Race-Weekend Ticket Prices</h2>
+      <p>Official 3-day ticket prices (in USD) for every 2026 round held so far, from the season-opening Australian GP through to the Dutch GP — the last-ever Formula 1 race at Zandvoort. Sourced from GPDestinations.com's annual F1 ticket-price analysis, which pulls listed prices directly from each circuit or promoter's official site.</p>
+    </div>
+    <div class="ticket-table-wrap">
+      <table class="ticket-table">
+        <thead>
+          <tr><th>Rd</th><th>Grand Prix</th><th class="num">General Admission</th><th class="num">Cheapest Grandstand</th><th class="num">Main Grandstand</th><th class="num">3-Day Average</th></tr>
+        </thead>
+        <tbody id="ticketBody"></tbody>
+      </table>
+    </div>
+    <div class="ticket-note">
+      Prices are official 3-day face-value listings (regular pricing, not early-bird or resale) as compiled by GPDestinations.com in their 2026 season analysis; the Australian GP's figures cover its 4-day Park Pass / grandstand format rather than 3 days. "General Admission" is standing/roaming access with no reserved seat; "Cheapest Grandstand" and "Main Grandstand" (opposite the pits/start-finish straight) are reserved-seat categories. Actual prices paid vary with dynamic pricing, currency conversion, and resale markets — treat these as reference points, not live pricing.
+    </div>
+  </section>
+
+  <!-- ============ TRIVIA ============ -->
+  <section class="panel-section" id="trivia">
+    <div class="section-head">
+      <h2>Trivia & Storylines</h2>
+      <p>Notable facts from the record books and the 2026 season so far.</p>
+    </div>
+    <div class="trivia-grid" id="triviaGrid"></div>
+
+    <div class="section-head" style="margin-top:38px;">
+      <h2 style="font-size:20px;">The Business of F1 — 2026</h2>
+      <p>A GM's-eye view of the sport's financial guardrails this season.</p>
+    </div>
+    <div class="biz-grid">
+      <div class="biz-card"><div class="num">$215M</div><div class="lbl">Team cost cap for 2026 (≤24-race season), up from $135M in 2023–25 — the jump mostly reflects previously-excluded items (depreciation, more staff costs) moving inside the cap, not new spending headroom.</div></div>
+      <div class="biz-card"><div class="num">$190M</div><div class="lbl">Separate power-unit cost cap for 2026, raised to absorb the cost of the new hybrid engine formula and ease the path for new manufacturers.</div></div>
+      <div class="biz-card"><div class="num">11 teams</div><div class="lbl">Grid expands from 10 to 11 for 2026: Audi enters as a full works team (built on the former Sauber base) and Cadillac (General Motors) joins as an all-new entrant.</div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Data compiled from Formula1.com official standings/results/calendar, FIA regulations coverage, GPDestinations.com's 2026 ticket-price analysis, and F1-Fansite.com's all-time records database — cross-checked across sources; last verified 24 Aug 2026 (through the Dutch Grand Prix, Round 12). Race-by-race results and standings will shift as the 2026 season continues.
+</footer>
+
+
+</main>
+
+<footer>
+  Data compiled from Formula1.com official standings/results/calendar, FIA regulations coverage, GPDestinations.com's 2026 ticket-price analysis, and F1-Fansite.com's all-time records database — cross-checked across sources; last verified 24 Aug 2026 (through the Dutch Grand Prix, Round 12). Race-by-race results and standings will shift as the 2026 season continues.
+  <br><br>
+  Installable as an app (PWA) — works offline after first visit. Data refreshes automatically when this site is redeployed.
+</footer>
+
+<script src="./js/data.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
