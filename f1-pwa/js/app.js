@@ -21,20 +21,48 @@ document.getElementById('railMarker').style.left = hero.railPct + '%';
 // ---------- CALENDAR ----------
 const calGrid = document.getElementById('calGrid');
 races.forEach(rc=>{
+  const results = typeof raceResults !== 'undefined' ? raceResults[rc.r] : null;
+  const hasResult = rc.status==='done' && !!results;
+
   const card = document.createElement('div');
-  card.className = 'cal-card' + (rc.status==='done'?' done':'') + (rc.status==='now'?' now':'');
+  card.className = 'cal-card' + (rc.status==='done'?' done':'') + (rc.status==='now'?' now':'') + (hasResult?' clickable':'');
+  if (hasResult) {
+    card.tabIndex = 0;
+    card.setAttribute('role','button');
+    card.setAttribute('aria-expanded','false');
+  }
   let tags = '';
   if(rc.sprint) tags += '<span class="tag sprint">SPRINT</span>';
   if(rc.isNew) tags += '<span class="tag new">NEW</span>';
   if(rc.status==='now') tags += '<span class="tag now">THIS WEEKEND</span>';
+
+  const resultRows = hasResult ? results.map((row,i)=>`
+    <div class="res-row">
+      <span class="res-pos">${i+1}</span>
+      <span class="res-drv"><span class="teambar" style="background:${teamColor[row[1]]}"></span>${row[0]}</span>
+      <span class="res-team">${row[1]}</span>
+    </div>`).join('') : '';
+
   card.innerHTML = `
     <div class="rnd"><span>ROUND ${rc.r} / 23</span><span>${tags}</span></div>
     <div class="gp">${rc.gp}</div>
     <div class="venue">${rc.venue}</div>
     <div class="date">${rc.date}</div>
     ${rc.winner ? `<div class="winner"><span class="dot" style="background:${teamColor[rc.team]}"></span>Winner: <b>${rc.winner}</b></div>` : `<div class="winner" style="color:var(--muted2)">— result pending —</div>`}
+    ${hasResult ? `<div class="expand-hint">Top 10 <span class="chevron">▾</span></div><div class="cal-result">${resultRows}</div>` : ''}
   `;
   calGrid.appendChild(card);
+
+  if (hasResult) {
+    const toggle = () => {
+      const open = card.classList.toggle('open');
+      card.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  }
 });
 
 // ---------- STANDINGS ----------

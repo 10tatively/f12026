@@ -8,7 +8,7 @@
    browsers there's a new version to fetch — see README.md.
    ========================================================================== */
 
-const APP_VERSION = '2026.12.1'; // bump this on every content update (see README)
+const APP_VERSION = '2026.12.2'; // bump this on every content update (see README)
 const LAST_UPDATED = '24 Aug 2026 — through Round 12 (Dutch GP)';
 
 const teamColor = {
@@ -177,6 +177,30 @@ const raceDrivers = [
   {name:'L. Lawson',    team:'Racing Bulls', pts:[0,8,2,0,6,8,4,2,9,0,4,6]},
   {name:'P. Gasly',     team:'Alpine',   pts:[1,8,6,1,4,15,6,0,1,0,0,2]},
 ];
+
+// ---------- PER-RACE TOP-10 RESULTS ----------
+// One entry per completed round, keyed by round number. Each row is
+// [driver name, team] in finishing order (1st place first) — position is
+// just the row's index, so there's nothing else to type when a new race
+// finishes. Shown when you tap/click a completed race in the Calendar tab.
+// Derived from the round-by-round points above (raceDrivers), sorted
+// descending, which reproduces every known race winner — so it's safe to
+// keep deriving new rounds from data.js's per-round points once official
+// per-round breakdowns aren't otherwise noted.
+const raceResults = {
+  1:  [['G. Russell','Mercedes'],['K. Antonelli','Mercedes'],['C. Leclerc','Ferrari'],['L. Hamilton','Ferrari'],['L. Norris','McLaren'],['M. Verstappen','Red Bull Racing'],['P. Gasly','Alpine'],['O. Piastri','McLaren'],['I. Hadjar','Red Bull Racing'],['L. Lawson','Racing Bulls']],
+  2:  [['K. Antonelli','Mercedes'],['G. Russell','Mercedes'],['L. Hamilton','Ferrari'],['C. Leclerc','Ferrari'],['L. Lawson','Racing Bulls'],['P. Gasly','Alpine'],['L. Norris','McLaren'],['I. Hadjar','Red Bull Racing'],['O. Piastri','McLaren'],['M. Verstappen','Red Bull Racing']],
+  3:  [['K. Antonelli','Mercedes'],['O. Piastri','McLaren'],['C. Leclerc','Ferrari'],['G. Russell','Mercedes'],['L. Norris','McLaren'],['L. Hamilton','Ferrari'],['P. Gasly','Alpine'],['M. Verstappen','Red Bull Racing'],['L. Lawson','Racing Bulls'],['I. Hadjar','Red Bull Racing']],
+  4:  [['K. Antonelli','Mercedes'],['L. Norris','McLaren'],['O. Piastri','McLaren'],['G. Russell','Mercedes'],['M. Verstappen','Red Bull Racing'],['L. Hamilton','Ferrari'],['C. Leclerc','Ferrari'],['P. Gasly','Alpine'],['I. Hadjar','Red Bull Racing'],['L. Lawson','Racing Bulls']],
+  5:  [['K. Antonelli','Mercedes'],['L. Hamilton','Ferrari'],['M. Verstappen','Red Bull Racing'],['C. Leclerc','Ferrari'],['I. Hadjar','Red Bull Racing'],['G. Russell','Mercedes'],['L. Norris','McLaren'],['L. Lawson','Racing Bulls'],['O. Piastri','McLaren'],['P. Gasly','Alpine']],
+  6:  [['K. Antonelli','Mercedes'],['L. Hamilton','Ferrari'],['P. Gasly','Alpine'],['I. Hadjar','Red Bull Racing'],['O. Piastri','McLaren'],['L. Lawson','Racing Bulls'],['G. Russell','Mercedes'],['C. Leclerc','Ferrari'],['L. Norris','McLaren'],['M. Verstappen','Red Bull Racing']],
+  7:  [['L. Hamilton','Ferrari'],['G. Russell','Mercedes'],['L. Norris','McLaren'],['M. Verstappen','Red Bull Racing'],['O. Piastri','McLaren'],['I. Hadjar','Red Bull Racing'],['P. Gasly','Alpine'],['L. Lawson','Racing Bulls'],['K. Antonelli','Mercedes'],['C. Leclerc','Ferrari']],
+  8:  [['G. Russell','Mercedes'],['M. Verstappen','Red Bull Racing'],['K. Antonelli','Mercedes'],['O. Piastri','McLaren'],['L. Hamilton','Ferrari'],['I. Hadjar','Red Bull Racing'],['L. Norris','McLaren'],['C. Leclerc','Ferrari'],['L. Lawson','Racing Bulls'],['P. Gasly','Alpine']],
+  9:  [['C. Leclerc','Ferrari'],['G. Russell','Mercedes'],['L. Hamilton','Ferrari'],['L. Norris','McLaren'],['I. Hadjar','Red Bull Racing'],['L. Lawson','Racing Bulls'],['K. Antonelli','Mercedes'],['M. Verstappen','Red Bull Racing'],['O. Piastri','McLaren'],['P. Gasly','Alpine']],
+  10: [['K. Antonelli','Mercedes'],['C. Leclerc','Ferrari'],['M. Verstappen','Red Bull Racing'],['L. Hamilton','Ferrari'],['O. Piastri','McLaren'],['I. Hadjar','Red Bull Racing'],['L. Norris','McLaren'],['G. Russell','Mercedes'],['L. Lawson','Racing Bulls'],['P. Gasly','Alpine']],
+  11: [['L. Norris','McLaren'],['M. Verstappen','Red Bull Racing'],['K. Antonelli','Mercedes'],['C. Leclerc','Ferrari'],['L. Hamilton','Ferrari'],['I. Hadjar','Red Bull Racing'],['G. Russell','Mercedes'],['L. Lawson','Racing Bulls'],['O. Piastri','McLaren'],['P. Gasly','Alpine']],
+  12: [['L. Norris','McLaren'],['K. Antonelli','Mercedes'],['G. Russell','Mercedes'],['C. Leclerc','Ferrari'],['L. Hamilton','Ferrari'],['O. Piastri','McLaren'],['L. Lawson','Racing Bulls'],['M. Verstappen','Red Bull Racing'],['P. Gasly','Alpine'],['I. Hadjar','Red Bull Racing']],
+};
 
 // ---------- TICKET PRICES DATA ----------
 // Sourced from GPDestinations.com 2026 F1 ticket price analysis (official circuit/promoter listings, 3-day tickets unless noted)
