@@ -143,6 +143,31 @@
   .cal-card .winner .dot{width:9px; height:9px; border-radius:50%; flex-shrink:0;}
   .cal-card .winner b{font-weight:600;}
 
+  .cal-card.clickable{cursor:pointer; transition:border-color .15s, background .15s; -webkit-tap-highlight-color:transparent;}
+  .cal-card.clickable:hover{border-color:var(--muted2);}
+  .cal-card.clickable:focus-visible{outline:2px solid var(--red); outline-offset:2px;}
+  .cal-card .expand-hint{
+    display:flex; align-items:center; gap:4px; margin-top:8px;
+    font-family:'Oswald',sans-serif; font-size:10.5px; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--muted2);
+  }
+  .cal-card .expand-hint .chevron{display:inline-block; transition:transform .2s ease; font-size:11px;}
+  .cal-card.open .expand-hint .chevron{transform:rotate(180deg);}
+  .cal-card .cal-result{
+    max-height:0; overflow:hidden; opacity:0;
+    transition:max-height .28s ease, opacity .2s ease, margin-top .28s ease;
+  }
+  .cal-card.open .cal-result{max-height:420px; opacity:1; margin-top:10px;}
+  .cal-card .res-row{
+    display:grid; grid-template-columns:20px 1fr auto; gap:8px; align-items:center;
+    padding:6px 0; border-top:1px solid var(--line); font-size:12.5px;
+  }
+  .cal-card .res-row:first-child{border-top:none;}
+  .cal-card .res-pos{font-family:'JetBrains Mono',monospace; color:var(--muted); font-weight:600; font-size:12px;}
+  .cal-card .res-drv{display:flex; align-items:center; gap:7px; min-width:0; font-weight:500;}
+  .cal-card .res-drv .teambar{width:3px; height:16px; border-radius:2px; flex-shrink:0;}
+  .cal-card .res-team{color:var(--muted); font-size:11px; white-space:nowrap; text-align:right;}
+
   /* ===== STANDINGS / TIMING TOWER ===== */
   .two-col{display:grid; grid-template-columns:1.35fr 1fr; gap:24px; align-items:start;}
   @media (max-width:900px){.two-col{grid-template-columns:1fr;}}
