@@ -243,18 +243,36 @@ document.querySelectorAll('.navbtn').forEach(btn=>{
 });
 
 // ==========================================================================
-// PWA: service worker registration + install prompt + update banner
+// PWA: service worker registration + install prompt + auto-update
 // ==========================================================================
+// Update policy: browsers only auto-check a registered service worker for
+// changes at most once every ~24h, so on a day RT pushes a mid-day fix,
+// someone who already had the app open that day could be stuck on stale
+// data until the next day. To make sure the app always shows the latest
+// numbers as soon as they're live, we (1) force an explicit update check
+// every time the app loads AND every time it's brought back to the
+// foreground (covers installed home-screen apps that were merely
+// backgrounded, not relaunched — those never re-fire the 'load' event),
+// and (2) apply a newer version immediately once it's downloaded, with no
+// banner/tap required — see the controllerchange listener below, which
+// reloads the page once the new version takes control.
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').then(reg => {
-      // Check for a newer service worker on every load
+      reg.update();
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') reg.update();
+      });
+
       reg.addEventListener('updatefound', () => {
         const newWorker = reg.installing;
         if (!newWorker) return;
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            showUpdateBanner(reg);
+            // A newer version just finished downloading — apply it right
+            // away rather than waiting for the user to notice a banner.
+            newWorker.postMessage({ type: 'SKIP_WAITING' });
           }
         });
       });
@@ -267,20 +285,6 @@ if ('serviceWorker' in navigator) {
     if (refreshing) return;
     refreshing = true;
     window.location.reload();
-  });
-}
-
-function showUpdateBanner(reg) {
-  const banner = document.createElement('div');
-  banner.id = 'updateBanner';
-  banner.innerHTML = `
-    <span>A newer version of this dashboard is available.</span>
-    <button id="updateBtn">Refresh</button>
-  `;
-  document.body.appendChild(banner);
-  document.getElementById('updateBtn').addEventListener('click', () => {
-    if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-    banner.remove();
   });
 }
 
