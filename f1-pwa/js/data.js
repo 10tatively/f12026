@@ -8,8 +8,8 @@
    browsers there's a new version to fetch — see README.md.
    ========================================================================== */
 
-const APP_VERSION = '2026.13.1'; // bump this on every content update (see README)
-const LAST_UPDATED = '7 Sep 2026 — through Round 13 (Italian GP)';
+const APP_VERSION = '2026.14.1'; // bump this on every content update (see README)
+const LAST_UPDATED = '12 Oct 2026 — through Round 17 (Singapore GP)';
 
 const teamColor = {
   Mercedes: 'var(--mercedes)', Ferrari: 'var(--ferrari)', McLaren: 'var(--mclaren)',
@@ -20,11 +20,11 @@ const teamColor = {
 
 // ---------- HERO ----------
 const hero = {
-  leaderName: 'K. Antonelli', leaderTeam: 'Mercedes', leaderPts: 267,
-  gap: '+66', gapDriver: 'G. Russell', gapTeam: 'Mercedes', gapPts: 201,
-  roundLabel: 'Rd 13 of 23', roundSub: 'Complete after Italian GP',
-  nextRace: 'Spanish GP', nextSub: 'Madring · 11–13 Sep',
-  railPct: 57,
+  leaderName: 'K. Antonelli', leaderTeam: 'Mercedes', leaderPts: 340,
+  gap: '+102', gapDriver: 'G. Russell', gapTeam: 'Mercedes', gapPts: 238,
+  roundLabel: 'Rd 17 of 23', roundSub: 'Complete after Singapore GP',
+  nextRace: 'United States GP', nextSub: 'Austin · 23–25 Oct',
+  railPct: 74,
 };
 
 // ---------- CALENDAR DATA ----------
@@ -42,11 +42,11 @@ const races = [
   {r:11,gp:'Hungarian GP',venue:'Budapest',date:'24–26 Jul',status:'done',winner:'L. Norris',team:'McLaren'},
   {r:12,gp:'Dutch GP',venue:'Zandvoort',date:'21–23 Aug',status:'done',winner:'L. Norris',team:'McLaren',sprint:true},
   {r:13,gp:'Italian GP',venue:'Monza',date:'4–6 Sep',status:'done',winner:'K. Antonelli',team:'Mercedes'},
-  {r:14,gp:'Spanish GP (Madrid)',venue:'Madring street circuit',date:'11–13 Sep',status:'now',isNew:true},
-  {r:15,gp:'Azerbaijan GP',venue:'Baku',date:'24–26 Sep',status:'upcoming'},
-  {r:16,gp:'Bahrain GP',venue:'Sepang, Malaysia',date:'2–4 Oct',status:'upcoming',isNew:true},
-  {r:17,gp:'Singapore GP',venue:'Marina Bay',date:'9–11 Oct',status:'upcoming',sprint:true},
-  {r:18,gp:'United States GP',venue:'Austin',date:'23–25 Oct',status:'upcoming'},
+  {r:14,gp:'Spanish GP (Madrid)',venue:'Madring street circuit',date:'11–13 Sep',status:'done',winner:'K. Antonelli',team:'Mercedes',isNew:true},
+  {r:15,gp:'Azerbaijan GP',venue:'Baku',date:'24–26 Sep',status:'done',winner:'G. Russell',team:'Mercedes'},
+  {r:16,gp:'Bahrain GP',venue:'Sepang, Malaysia',date:'2–4 Oct',status:'done',winner:'M. Verstappen',team:'Red Bull Racing',isNew:true},
+  {r:17,gp:'Singapore GP',venue:'Marina Bay',date:'9–11 Oct',status:'done',winner:'M. Verstappen',team:'Red Bull Racing',sprint:true},
+  {r:18,gp:'United States GP',venue:'Austin',date:'23–25 Oct',status:'now'},
   {r:19,gp:'Mexico City GP',venue:'Mexico City',date:'30 Oct–1 Nov',status:'upcoming'},
   {r:20,gp:'São Paulo GP',venue:'Interlagos',date:'6–8 Nov',status:'upcoming'},
   {r:21,gp:'Las Vegas GP',venue:'Las Vegas',date:'19–21 Nov',status:'upcoming'},
@@ -56,50 +56,50 @@ const races = [
 
 // ---------- STANDINGS DATA ----------
 const drivers = [
-  {p:1,name:'Kimi Antonelli',team:'Mercedes',pts:267},
-  {p:2,name:'George Russell',team:'Mercedes',pts:201},
-  {p:3,name:'Lewis Hamilton',team:'Ferrari',pts:191},
-  {p:4,name:'Lando Norris',team:'McLaren',pts:171},
-  {p:5,name:'Charles Leclerc',team:'Ferrari',pts:155},
-  {p:6,name:'Max Verstappen',team:'Red Bull Racing',pts:127},
-  {p:7,name:'Oscar Piastri',team:'McLaren',pts:116},
-  {p:8,name:'Isack Hadjar',team:'Red Bull Racing',pts:71},
-  {p:9,name:'Liam Lawson',team:'Racing Bulls',pts:51},
+  {p:1,name:'Kimi Antonelli',team:'Mercedes',pts:340},
+  {p:2,name:'George Russell',team:'Mercedes',pts:238},
+  {p:3,name:'Lewis Hamilton',team:'Ferrari',pts:229},
+  {p:4,name:'Max Verstappen',team:'Red Bull Racing',pts:221},
+  {p:5,name:'Charles Leclerc',team:'Ferrari',pts:215},
+  {p:6,name:'Lando Norris',team:'McLaren',pts:201},
+  {p:7,name:'Oscar Piastri',team:'McLaren',pts:138},
+  {p:8,name:'Isack Hadjar',team:'Red Bull Racing',pts:97},
+  {p:9,name:'Liam Lawson',team:'Racing Bulls',pts:75},
   {p:10,name:'Pierre Gasly',team:'Alpine',pts:41},
-  {p:11,name:'Arvid Lindblad',team:'Racing Bulls',pts:29},
-  {p:12,name:'Franco Colapinto',team:'Alpine',pts:21},
-  {p:13,name:'Oliver Bearman',team:'Haas F1 Team',pts:18},
-  {p:14,name:'Gabriel Bortoleto',team:'Audi',pts:10},
-  {p:15,name:'Nico Hülkenberg',team:'Audi',pts:6},
-  {p:16,name:'Carlos Sainz',team:'Williams',pts:6},
-  {p:17,name:'Alexander Albon',team:'Williams',pts:5},
-  {p:18,name:'Esteban Ocon',team:'Haas F1 Team',pts:3},
-  {p:19,name:'Fernando Alonso',team:'Aston Martin',pts:3},
+  {p:11,name:'Arvid Lindblad',team:'Racing Bulls',pts:38},
+  {p:12,name:'Franco Colapinto',team:'Alpine',pts:27},
+  {p:13,name:'Oliver Bearman',team:'Haas F1 Team',pts:23},
+  {p:14,name:'Nico Hülkenberg',team:'Audi',pts:13},
+  {p:15,name:'Gabriel Bortoleto',team:'Audi',pts:10},
+  {p:16,name:'Esteban Ocon',team:'Haas F1 Team',pts:7},
+  {p:17,name:'Fernando Alonso',team:'Aston Martin',pts:7},
+  {p:18,name:'Carlos Sainz',team:'Williams',pts:7},
+  {p:19,name:'Alexander Albon',team:'Williams',pts:5},
   {p:20,name:'Yuki Tsunoda',team:'Racing Bulls',pts:1},
   {p:21,name:'Lance Stroll',team:'Aston Martin',pts:0},
   {p:22,name:'Valtteri Bottas',team:'Cadillac',pts:0},
   {p:23,name:'Sergio Pérez',team:'Cadillac',pts:0},
 ];
 const constructors = [
-  {p:1,team:'Mercedes',pts:468},
-  {p:2,team:'Ferrari',pts:346},
-  {p:3,team:'McLaren',pts:287},
-  {p:4,team:'Red Bull Racing',pts:204},
-  {p:5,team:'Racing Bulls',pts:75},
-  {p:6,team:'Alpine',pts:62},
-  {p:7,team:'Haas F1 Team',pts:21},
-  {p:8,team:'Audi',pts:16},
-  {p:9,team:'Williams',pts:11},
-  {p:10,team:'Aston Martin',pts:3},
+  {p:1,team:'Mercedes',pts:578},
+  {p:2,team:'Ferrari',pts:444},
+  {p:3,team:'McLaren',pts:339},
+  {p:4,team:'Red Bull Racing',pts:332},
+  {p:5,team:'Racing Bulls',pts:100},
+  {p:6,team:'Alpine',pts:68},
+  {p:7,team:'Haas F1 Team',pts:30},
+  {p:8,team:'Audi',pts:23},
+  {p:9,team:'Williams',pts:12},
+  {p:10,team:'Aston Martin',pts:7},
   {p:11,team:'Cadillac',pts:0},
 ];
-const nextRound = { label: 'Round 14 — Up Next', race: 'Spanish Grand Prix', date: '11–13 Sep', venue: 'Madring', roundOf: 'Rd 14/23', remaining: 10 };
-const lastRoundHeadline = { title: 'Italian GP Headlines', winner: 'K. Antonelli', note1: 'From P19 to P1', note1sub: 'stunning comeback at Monza', note2: 'Leclerc', note2val: 'Crashed out, lap 2' };
+const nextRound = { label: 'Round 18 — Up Next', race: 'United States Grand Prix', date: '23–25 Oct', venue: 'Austin', roundOf: 'Rd 18/23', remaining: 6 };
+const lastRoundHeadline = { title: 'Singapore GP Headlines', winner: 'M. Verstappen', note1: 'Led every lap from pole', note1sub: "73rd career win, his 250th GP start", note2: 'Russell', note2val: 'P19 (grid penalty) to P9' };
 
 // ---------- HISTORY DATA (5-year) ----------
 const history = [
-  {yr:2026,inprog:true,driver:'Kimi Antonelli',dteam:'Mercedes',dstat:'267 pts · leader after Rd 13',constr:'Mercedes',cstat:'468 pts · leader after Rd 13',
-   note:'Season in progress. A regulation reset (new chassis + 100%-sustainable-fuel hybrid power units) reshuffled the order: Mercedes leads both championships 1-2 in the drivers\' standings behind Antonelli and Russell, with Antonelli extending his lead to 66 points after a sensational comeback win from 19th on the grid at his home Italian Grand Prix in Monza. Lando Norris has closed in with back-to-back wins in Hungary and at Zandvoort\'s emotional Dutch GP finale, while Ferrari\'s Charles Leclerc crashed out on lap 2 at Monza.'},
+  {yr:2026,inprog:true,driver:'Kimi Antonelli',dteam:'Mercedes',dstat:'340 pts · leader after Rd 17',constr:'Mercedes',cstat:'578 pts · leader after Rd 17',
+   note:'Season in progress. A regulation reset (new chassis + 100%-sustainable-fuel hybrid power units) reshuffled the order: Mercedes leads both championships 1-2 in the drivers\' standings behind Antonelli and Russell, with Antonelli\'s lead now out to 102 points after 17 of 23 rounds. Max Verstappen and Red Bull have rallied hard in the back half of the season, winning back-to-back at the rescheduled Bahrain GP (held at Sepang, Malaysia) and the Singapore GP — Verstappen\'s 73rd career win, on his 250th grand prix start — to climb to 4th in the standings. Ferrari\'s Charles Leclerc has been their most consistent threat of late, taking 2nd at Singapore, while Lando Norris remains in the mix for McLaren after a string of podiums.'},
   {yr:2025,driver:'Lando Norris',dteam:'McLaren',dstat:'423 pts · 7 wins · 7 poles · 18 podiums',constr:'McLaren',cstat:'10th constructors\' title — passed Williams for outright 2nd all-time',
    note:'Norris took his maiden title in a three-way fight with Verstappen (2nd, within 2 points late in the year) and teammate Piastri, who led the standings for 15 rounds before finishing 3rd, 13 points back. McLaren repeated as constructors\' champion, becoming just the second team in F1 history (after 1998) to sweep both titles back-to-back in that era.'},
   {yr:2024,driver:'Max Verstappen',dteam:'Red Bull Racing',dstat:'437 pts · 9 wins · 8 poles',constr:'McLaren',cstat:'9th constructors\' title — ended a 26-year drought since 1998',
@@ -159,6 +159,8 @@ const trivia = [
   "Ferrari is the only constructor to have entered every Formula 1 season since the championship began in 1950, and still holds the all-time record with 87 grand prix 1–2 finishes.",
   "Fernando Alonso, still on the grid in 2026 with Aston Martin, holds the all-time record for most race starts (436) across a 25-year career spanning 2001 to today.",
   "The 2026 Dutch Grand Prix was Zandvoort's last-ever Formula 1 race after the promoter's contract wasn't renewed — Lando Norris won it, his second straight victory, while home favourite Max Verstappen crashed out early after a heavy accident on the damp opening lap.",
+  "Max Verstappen's win at the 2026 Singapore GP — his 73rd career victory, on his 250th grand prix start — completed back-to-back wins after also topping the podium at the rescheduled Bahrain GP in Malaysia, Red Bull's strongest stretch of an otherwise difficult season.",
+  "Liam Lawson filled in for Isack Hadjar at Red Bull Racing for the 2026 Spanish GP in Madrid, scoring points in P6, before both drivers returned to their regular seats (Hadjar at Red Bull, Lawson at Racing Bulls) the following round.",
 ];
 
 // ---------- POINTS RACE DATA ----------
@@ -168,18 +170,26 @@ const trivia = [
 // penalties on 3 Sep 2026 (McLaren/Red Bull appeal), dropping him from the
 // podium (P3) to P7 there and promoting Hadjar/Piastri/Lawson one place each
 // — the Round 6 column below reflects that final, official classification.
-const roundNames = ['Australia','China','Japan','Miami','Canada','Monaco','Barcelona','Austria','Great Britain','Belgium','Hungary','Netherlands','Italy'];
+// Rounds 14–17 added 12 Oct 2026 (catch-up update covering four race
+// weekends missed since the Round 13 update): each round's number combines
+// that weekend's Grand Prix points with any Sprint points scored (Round 17,
+// Singapore, was a Sprint weekend). All four rounds verified to sum exactly
+// to each driver's official Round-17 cumulative total on Formula1.com.
+// Round 14 (Madrid): Liam Lawson filled in for Isack Hadjar at Red Bull
+// Racing for this one round only — his Round 14 points are counted here
+// under Lawson, not Hadjar, matching how Formula1.com credited the result.
+const roundNames = ['Australia','China','Japan','Miami','Canada','Monaco','Barcelona','Austria','Great Britain','Belgium','Hungary','Netherlands','Italy','Madrid','Azerbaijan','Bahrain','Singapore'];
 const raceDrivers = [
-  {name:'K. Antonelli', team:'Mercedes', pts:[18,29,25,28,31,25,0,15,8,25,15,23,25]},
-  {name:'L. Hamilton',  team:'Ferrari',  pts:[12,21,8,10,21,18,25,10,22,12,10,14,8]},
-  {name:'G. Russell',   team:'Mercedes', pts:[25,26,12,17,8,0,18,25,23,0,6,23,18]},
-  {name:'C. Leclerc',   team:'Ferrari',  pts:[15,19,15,10,16,0,0,4,29,18,12,17,0]},
-  {name:'L. Norris',    team:'McLaren',  pts:[10,5,10,26,7,0,15,6,18,6,25,31,12]},
-  {name:'M. Verstappen',team:'Red Bull Racing', pts:[8,0,4,14,17,0,12,18,3,15,18,3,15]},
-  {name:'O. Piastri',   team:'McLaren',  pts:[0,3,18,22,5,12,10,12,2,10,0,12,10]},
-  {name:'I. Hadjar',    team:'Red Bull Racing', pts:[0,4,0,0,10,15,8,8,10,8,8,0,0]},
-  {name:'L. Lawson',    team:'Racing Bulls', pts:[0,8,2,0,6,10,4,2,9,0,4,6,0]},
-  {name:'P. Gasly',     team:'Alpine',   pts:[1,8,6,1,4,6,6,0,1,0,0,2,6]},
+  {name:'K. Antonelli', team:'Mercedes', pts:[18,29,25,28,31,25,0,15,8,25,15,23,25,25,10,18,20]},
+  {name:'L. Hamilton',  team:'Ferrari',  pts:[12,21,8,10,21,18,25,10,22,12,10,14,8,0,8,15,15]},
+  {name:'G. Russell',   team:'Mercedes', pts:[25,26,12,17,8,0,18,25,23,0,6,23,18,10,25,0,2]},
+  {name:'C. Leclerc',   team:'Ferrari',  pts:[15,19,15,10,16,0,0,4,29,18,12,17,0,12,12,12,24]},
+  {name:'L. Norris',    team:'McLaren',  pts:[10,5,10,26,7,0,15,6,18,6,25,31,12,15,0,2,13]},
+  {name:'M. Verstappen',team:'Red Bull Racing', pts:[8,0,4,14,17,0,12,18,3,15,18,3,15,18,18,25,33]},
+  {name:'O. Piastri',   team:'McLaren',  pts:[0,3,18,22,5,12,10,12,2,10,0,12,10,4,0,8,10]},
+  {name:'I. Hadjar',    team:'Red Bull Racing', pts:[0,4,0,0,10,15,8,8,10,8,8,0,0,0,15,10,1]},
+  {name:'L. Lawson',    team:'Racing Bulls', pts:[0,8,2,0,6,10,4,2,9,0,4,6,0,8,0,6,10]},
+  {name:'P. Gasly',     team:'Alpine',   pts:[1,8,6,1,4,6,6,0,1,0,0,2,6,0,0,0,0]},
 ];
 
 // ---------- PER-RACE TOP-10 RESULTS ----------
@@ -191,6 +201,9 @@ const raceDrivers = [
 // even though Round 6's underlying points above were later revised by the
 // Gasly appeal — see the note above the points-race data. Round 13 (Italian
 // GP) is sourced directly from Formula1.com's official race classification.
+// Rounds 14–17 (Madrid, Azerbaijan, Bahrain/Malaysia, Singapore) added 12
+// Oct 2026, each sourced directly from Formula1.com's official race
+// (not sprint) classification for that round.
 const raceResults = {
   1:  [['G. Russell','Mercedes'],['K. Antonelli','Mercedes'],['C. Leclerc','Ferrari'],['L. Hamilton','Ferrari'],['L. Norris','McLaren'],['M. Verstappen','Red Bull Racing'],['P. Gasly','Alpine'],['O. Piastri','McLaren'],['I. Hadjar','Red Bull Racing'],['L. Lawson','Racing Bulls']],
   2:  [['K. Antonelli','Mercedes'],['G. Russell','Mercedes'],['L. Hamilton','Ferrari'],['C. Leclerc','Ferrari'],['L. Lawson','Racing Bulls'],['P. Gasly','Alpine'],['L. Norris','McLaren'],['I. Hadjar','Red Bull Racing'],['O. Piastri','McLaren'],['M. Verstappen','Red Bull Racing']],
@@ -205,6 +218,10 @@ const raceResults = {
   11: [['L. Norris','McLaren'],['M. Verstappen','Red Bull Racing'],['K. Antonelli','Mercedes'],['C. Leclerc','Ferrari'],['L. Hamilton','Ferrari'],['I. Hadjar','Red Bull Racing'],['G. Russell','Mercedes'],['L. Lawson','Racing Bulls'],['O. Piastri','McLaren'],['P. Gasly','Alpine']],
   12: [['L. Norris','McLaren'],['K. Antonelli','Mercedes'],['G. Russell','Mercedes'],['C. Leclerc','Ferrari'],['L. Hamilton','Ferrari'],['O. Piastri','McLaren'],['L. Lawson','Racing Bulls'],['M. Verstappen','Red Bull Racing'],['P. Gasly','Alpine'],['I. Hadjar','Red Bull Racing']],
   13: [['K. Antonelli','Mercedes'],['G. Russell','Mercedes'],['M. Verstappen','Red Bull Racing'],['L. Norris','McLaren'],['O. Piastri','McLaren'],['L. Hamilton','Ferrari'],['P. Gasly','Alpine'],['A. Lindblad','Racing Bulls'],['F. Colapinto','Alpine'],['Y. Tsunoda','Racing Bulls']],
+  14: [['K. Antonelli','Mercedes'],['M. Verstappen','Red Bull Racing'],['L. Norris','McLaren'],['C. Leclerc','Ferrari'],['G. Russell','Mercedes'],['L. Lawson','Red Bull Racing'],['F. Colapinto','Alpine'],['O. Piastri','McLaren'],['A. Lindblad','Racing Bulls'],['N. Hülkenberg','Audi']],
+  15: [['G. Russell','Mercedes'],['M. Verstappen','Red Bull Racing'],['I. Hadjar','Red Bull Racing'],['C. Leclerc','Ferrari'],['K. Antonelli','Mercedes'],['L. Hamilton','Ferrari'],['A. Lindblad','Racing Bulls'],['E. Ocon','Haas F1 Team'],['O. Bearman','Haas F1 Team'],['C. Sainz','Williams']],
+  16: [['M. Verstappen','Red Bull Racing'],['K. Antonelli','Mercedes'],['L. Hamilton','Ferrari'],['C. Leclerc','Ferrari'],['I. Hadjar','Red Bull Racing'],['O. Piastri','McLaren'],['L. Lawson','Racing Bulls'],['F. Alonso','Aston Martin'],['L. Norris','McLaren'],['A. Lindblad','Racing Bulls']],
+  17: [['M. Verstappen','Red Bull Racing'],['C. Leclerc','Ferrari'],['K. Antonelli','Mercedes'],['L. Norris','McLaren'],['O. Piastri','McLaren'],['L. Hamilton','Ferrari'],['L. Lawson','Racing Bulls'],['N. Hülkenberg','Audi'],['G. Russell','Mercedes'],['I. Hadjar','Red Bull Racing']],
 };
 
 // ---------- TICKET PRICES DATA ----------
